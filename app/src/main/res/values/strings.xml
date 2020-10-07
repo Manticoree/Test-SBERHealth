@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Test-SberHealth</string>
+    <string name="Adult">Взрослые</string>
+    <string name="Child">Детские</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.app.test_sberhealth.base
 
-class BaseFragment {
+import androidx.fragment.app.Fragment
+
+open class BaseFragment : Fragment() {
 
 }

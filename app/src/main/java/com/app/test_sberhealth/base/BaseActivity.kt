@@ -1,4 +1,6 @@
 package com.app.test_sberhealth.base
 
-class BaseActivity {
+import androidx.appcompat.app.AppCompatActivity
+
+open class BaseActivity : AppCompatActivity() {
 }
