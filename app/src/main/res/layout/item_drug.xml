@@ -9,9 +9,11 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/sivDrugsImage"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:shapeAppearanceOverlay="@style/circleImageView"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -21,6 +23,7 @@
         android:layout_marginStart="20dp"
         android:gravity="center_vertical"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/sivDrugsImage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
