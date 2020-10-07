@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentTransaction
 import com.app.test_sberhealth.R
 import com.app.test_sberhealth.adapter.DrugsAdapter
 import com.app.test_sberhealth.base.BaseFragment
 import com.app.test_sberhealth.mvp.drugslistfragment.ageadapter.AgeAdapter
+import com.app.test_sberhealth.mvp.errorfragment.ErrorFragmentView
 import kotlinx.android.synthetic.main.fragment_showdrug.*
 
 class DrugsListFragmentView : BaseFragment(), DrugsListFragmentContract.View {
@@ -38,5 +40,14 @@ class DrugsListFragmentView : BaseFragment(), DrugsListFragmentContract.View {
         tabDiffAge.setupWithViewPager(vpDrugsList)
     }
 
+    override fun showErrorRepeat() {
+        val transaction: FragmentTransaction =
+            requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(
+            R.id.fcvFragment,
+            ErrorFragmentView()
+        )
+            .commit()
+    }
 
 }

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Test-SberHealth</string>
+    <string name="not_loading">Не удалось загрузить данные</string>
+    <string name="repeat">Повторить</string>
 </resources>

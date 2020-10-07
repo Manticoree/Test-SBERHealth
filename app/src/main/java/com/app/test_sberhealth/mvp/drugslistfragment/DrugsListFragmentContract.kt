@@ -9,6 +9,8 @@ interface DrugsListFragmentContract {
             listAdult: MutableList<DrugsAdapter>,
             listChild: MutableList<DrugsAdapter>
         )
+
+        fun showErrorRepeat()
     }
 
     interface Presenter {

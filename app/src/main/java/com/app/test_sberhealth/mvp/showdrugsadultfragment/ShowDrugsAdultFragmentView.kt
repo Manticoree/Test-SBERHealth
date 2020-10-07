@@ -16,9 +16,11 @@ class ShowDrugsAdultFragmentView(var initList: MutableList<DrugsAdapter>) : Page
 
     companion object {
         private const val ARG_PAGE: String = "ARG_PAGE"
+        private const val DRUGS: String = "DRUGS"
         fun newInstance(page: Int, list: MutableList<DrugsAdapter>): ShowDrugsAdultFragmentView {
             val args = Bundle()
             args.putInt(ARG_PAGE, page)
+            args.putSerializable(DRUGS, list)
             val fragment = ShowDrugsAdultFragmentView(list)
             fragment.arguments = args
             return fragment

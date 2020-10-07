@@ -46,7 +46,7 @@ class DrugsListFragmentPresenter(val view: DrugsListFragmentContract.View) :
                 }
 
                 override fun onError(e: Throwable?) {
-
+                    view.showErrorRepeat()
                 }
             })
     }
