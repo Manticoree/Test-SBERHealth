@@ -30,14 +30,14 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabDiffSocial"
+            android:id="@+id/tabDiffAge"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             app:tabIndicatorHeight="3dp"
             app:tabMode="fixed" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/vpDrugsList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

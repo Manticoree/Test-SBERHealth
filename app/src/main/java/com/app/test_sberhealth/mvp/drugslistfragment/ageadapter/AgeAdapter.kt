@@ -4,18 +4,26 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.app.test_sberhealth.R
+import com.app.test_sberhealth.adapter.DrugsAdapter
+import com.app.test_sberhealth.mvp.showdrugsadultfragment.ShowDrugsAdultFragmentView
 
-class AgeAdapter(fm: FragmentManager, behaviour: Int) : FragmentPagerAdapter(fm, behaviour) {
+class AgeAdapter(
+    fm: FragmentManager,
+    behaviour: Int,
+    private val listAdult: MutableList<DrugsAdapter>,
+    private val listChild: MutableList<DrugsAdapter>
+) :
+    FragmentPagerAdapter(fm, behaviour) {
     companion object {
         const val PAGE_COUNT = 2
         val tabTitles: Array<Int> = arrayOf(R.string.Adult, R.string.Child)
     }
 
     override fun getItem(position: Int): Fragment {
-        if (position == 1) {
-
+        return if (position == 1) {
+            ShowDrugsAdultFragmentView.newInstance(1, listAdult)
         } else {
-
+            ShowDrugsAdultFragmentView.newInstance(2, listChild)
         }
     }
 
