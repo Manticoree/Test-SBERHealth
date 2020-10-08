@@ -80,6 +80,7 @@ dependencies {
     implementation "com.jakewharton.rxbinding4:rxbinding:$rx_binding_version"
     implementation "com.jakewharton.rxbinding4:rxbinding-core:$rx_binding_version"
     implementation "com.jakewharton.rxbinding4:rxbinding-material:$rx_binding_version"
+    implementation "com.jakewharton.rxbinding4:rxbinding-recyclerview:$rx_binding_version"
 
 
     testImplementation 'junit:junit:4.12'

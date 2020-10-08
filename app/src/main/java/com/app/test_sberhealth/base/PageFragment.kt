@@ -9,7 +9,7 @@ open class PageFragment : BaseFragment() {
 
     private var adapter: FlexibleAdapter<DrugsAdapter>? = null
 
-    fun showRecyclerView(initList: List<DrugsAdapter>, rvDrugs: RecyclerView) {
+    fun showRecyclerView(initList: List<DrugsAdapter>?, rvDrugs: RecyclerView) {
         rvDrugs.setHasFixedSize(true)
         val manager: RecyclerView.LayoutManager = LinearLayoutManager(
             activity,
@@ -18,6 +18,7 @@ open class PageFragment : BaseFragment() {
         )
         rvDrugs.layoutManager = manager
         adapter = FlexibleAdapter(initList)
+        adapter?.addListener(this)
         rvDrugs.adapter = adapter
     }
 

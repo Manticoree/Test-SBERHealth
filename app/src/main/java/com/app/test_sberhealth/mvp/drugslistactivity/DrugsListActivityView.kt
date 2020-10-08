@@ -1,6 +1,7 @@
 package com.app.test_sberhealth.mvp.drugslistactivity
 
 import android.os.Bundle
+import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.FragmentTransaction
 import com.app.test_sberhealth.R
 import com.app.test_sberhealth.base.BaseActivity
@@ -27,5 +28,9 @@ class DrugsListActivityView : BaseActivity(), DrugsListActivityContract.View {
     override fun onDestroy() {
         presenter = null
         super.onDestroy()
+    }
+
+    override fun startSupportActionMode(callback: ActionMode.Callback): ActionMode? {
+        return super.startSupportActionMode(callback)
     }
 }

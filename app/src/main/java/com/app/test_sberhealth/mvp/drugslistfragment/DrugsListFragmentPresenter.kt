@@ -1,6 +1,7 @@
 package com.app.test_sberhealth.mvp.drugslistfragment
 
-import com.app.test_sberhealth.adapter.DrugsAdapter
+
+import android.util.Log
 import com.app.test_sberhealth.base.MainApplication
 import com.app.test_sberhealth.entities.DrugItem
 import com.app.test_sberhealth.retrofit.RetrofitApi
@@ -8,8 +9,6 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-
-
 import javax.inject.Inject
 
 class DrugsListFragmentPresenter(val view: DrugsListFragmentContract.View) :
@@ -18,8 +17,8 @@ class DrugsListFragmentPresenter(val view: DrugsListFragmentContract.View) :
     var retrofitApi: RetrofitApi? = null
         @Inject set
 
-    var adultList: MutableList<DrugsAdapter> = mutableListOf()
-    var childList: MutableList<DrugsAdapter> = mutableListOf()
+    var adultList: MutableList<DrugItem> = mutableListOf()
+    var childList: MutableList<DrugItem> = mutableListOf()
 
     init {
         MainApplication.applicationComponent.inject(this)
@@ -29,16 +28,20 @@ class DrugsListFragmentPresenter(val view: DrugsListFragmentContract.View) :
         retrofitApi?.getDrugs()
             ?.subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
+            ?.doAfterSuccess {
+                view.showDrugsFragment(adultList, childList)
+            }
             ?.subscribe(object : SingleObserver<List<DrugItem>> {
                 override fun onSuccess(drugsList: List<DrugItem>?) {
                     for (drug in drugsList!!) {
                         if (drug.isReadyForKids) {
-                            childList.add(DrugsAdapter(drug))
+                            childList.add(drug)
                         } else {
-                            adultList.add(DrugsAdapter(drug))
+                            adultList.add(drug)
                         }
-                        view.showDrugsFragment(adultList, childList)
                     }
+                    Log.i("drugListInit: ", adultList.toString())
+
                 }
 
                 override fun onSubscribe(d: Disposable?) {
@@ -49,6 +52,10 @@ class DrugsListFragmentPresenter(val view: DrugsListFragmentContract.View) :
                     view.showErrorRepeat()
                 }
             })
+    }
+
+    override fun onMoveToSearch() {
+        view.moveToSearch()
     }
 
 }

@@ -1,11 +1,12 @@
 package com.app.test_sberhealth.entities
 
-import com.google.gson.annotations.SerializedName
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class DrugItem(
-    @field:SerializedName("id") val id: Int,
-    @field:SerializedName("title") val title: String,
-    @field:SerializedName("icon") val icon: String,
-    @field:SerializedName("isReadyForKids") val isReadyForKids: Boolean
-) : Serializable
+    val id: Int,
+    val title: String,
+    val icon: String,
+    val isReadyForKids: Boolean
+) : Parcelable

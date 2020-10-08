@@ -1,15 +1,18 @@
 package com.app.test_sberhealth.mvp.drugslistfragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentTransaction
 import com.app.test_sberhealth.R
-import com.app.test_sberhealth.adapter.DrugsAdapter
 import com.app.test_sberhealth.base.BaseFragment
+import com.app.test_sberhealth.entities.DrugItem
 import com.app.test_sberhealth.mvp.drugslistfragment.ageadapter.AgeAdapter
 import com.app.test_sberhealth.mvp.errorfragment.ErrorFragmentView
+import com.app.test_sberhealth.mvp.searchdrugsfragment.SearchDrugFragmentView
+import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.android.synthetic.main.fragment_showdrug.*
 
 class DrugsListFragmentView : BaseFragment(), DrugsListFragmentContract.View {
@@ -28,12 +31,14 @@ class DrugsListFragmentView : BaseFragment(), DrugsListFragmentContract.View {
         if (presenter == null)
             presenter = DrugsListFragmentPresenter(this)
         presenter?.getDrugs()
+        presenter?.onMoveToSearch()
     }
 
     override fun showDrugsFragment(
-        listAdult: MutableList<DrugsAdapter>,
-        listChild: MutableList<DrugsAdapter>
+        listAdult: MutableList<DrugItem>,
+        listChild: MutableList<DrugItem>
     ) {
+        Log.i("showDrugsFragment: ", listAdult.toString())
         if (adapter == null)
             adapter = AgeAdapter(childFragmentManager, 1, listAdult, listChild)
         vpDrugsList.adapter = adapter
@@ -50,4 +55,16 @@ class DrugsListFragmentView : BaseFragment(), DrugsListFragmentContract.View {
             .commit()
     }
 
+    override fun moveToSearch() {
+        mbtnSearch.clicks().subscribe() {
+            val transaction: FragmentTransaction =
+                requireActivity().supportFragmentManager.beginTransaction()
+            transaction.replace(
+                R.id.fcvFragment,
+                SearchDrugFragmentView()
+            )
+                .addToBackStack(null)
+                .commit()
+        }
+    }
 }
