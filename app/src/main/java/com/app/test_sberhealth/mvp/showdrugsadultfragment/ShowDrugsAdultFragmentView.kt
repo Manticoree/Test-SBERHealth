@@ -54,6 +54,7 @@ class ShowDrugsAdultFragmentView : PageFragment(),
     }
 
     override fun initRecView(initList: MutableList<DrugItem>) {
+        drugList = initList
         var adapList: MutableList<DrugsAdapter> = mutableListOf()
         for (drug in initList) {
             if (page == 1) {
