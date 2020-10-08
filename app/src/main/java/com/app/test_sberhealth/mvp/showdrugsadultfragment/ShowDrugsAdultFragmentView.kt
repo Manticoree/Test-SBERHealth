@@ -1,7 +1,6 @@
 package com.app.test_sberhealth.mvp.showdrugsadultfragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import com.app.test_sberhealth.R
 import com.app.test_sberhealth.adapter.DrugsAdapter
 import com.app.test_sberhealth.base.PageFragment
 import com.app.test_sberhealth.entities.DrugItem
+import com.app.test_sberhealth.mvp.errorfragment.ErrorFragmentView
 import com.app.test_sberhealth.mvp.fulldescdrugfragment.FullDescDrugFragmentView
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import kotlinx.android.synthetic.main.fragment_drugslist.*
@@ -19,17 +19,14 @@ class ShowDrugsAdultFragmentView : PageFragment(),
     ShowDrugsAdultFragmentContract.View, FlexibleAdapter.OnItemClickListener {
 
     private var presenter: ShowDrugsAdultFragmentContract.Presenter? = null
-    private var initList: MutableList<DrugsAdapter> = mutableListOf()
     private var drugList: MutableList<DrugItem> = mutableListOf()
+    var page: Int? = null
 
     companion object {
         private const val ARG_PAGE: String = "ARG_PAGE"
-        const val DRUGS: String = "DRUGS"
-        fun newInstance(page: Int, list: ArrayList<DrugItem>): ShowDrugsAdultFragmentView {
+        fun newInstance(page: Int): ShowDrugsAdultFragmentView {
             val args = Bundle()
             args.putInt(ARG_PAGE, page)
-
-            args.putParcelableArrayList(DRUGS, list)
             val fragment = ShowDrugsAdultFragmentView()
             fragment.arguments = args
             return fragment
@@ -39,14 +36,7 @@ class ShowDrugsAdultFragmentView : PageFragment(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val args = arguments
-        val myList: ArrayList<DrugItem> =
-            args?.getParcelableArrayList<DrugItem>(DRUGS) as ArrayList<DrugItem>
-
-        for (item in myList) {
-            Log.i("ItemAdultDrugs: ", item.title)
-            initList.add(DrugsAdapter(item))
-            drugList.add(item)
-        }
+        page = args?.getInt(ARG_PAGE)
     }
 
     override fun onCreateView(
@@ -60,13 +50,43 @@ class ShowDrugsAdultFragmentView : PageFragment(),
         if (presenter == null) {
             presenter = ShowDrugsAdultFragmentPresenter(this)
         }
-        presenter?.onInitRecView()
+        presenter?.getDrugs()
     }
 
-    override fun initRecView() {
-        showRecyclerView(initList, rvDrugsList)
+    override fun initRecView(initList: MutableList<DrugItem>) {
+        var adapList: MutableList<DrugsAdapter> = mutableListOf()
+        for (drug in initList) {
+            if (page == 1) {
+                if (!drug.isReadyForKids) {
+                    adapList.add(DrugsAdapter(drug))
+                }
+            } else if (page == 2) {
+                if (drug.isReadyForKids) {
+                    adapList.add(DrugsAdapter(drug))
+                }
+            }
+        }
+        showRecyclerView(adapList, rvDrugsList)
     }
 
+    override fun showErrorRepeat() {
+        val transaction: FragmentTransaction =
+            requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(
+            R.id.fcvFragment,
+            ErrorFragmentView()
+        )
+            .commit()
+    }
+
+    override fun showShimmer() {
+        shimmerViewContainer.startShimmer()
+    }
+
+    override fun hideShimmer() {
+        shimmerViewContainer.stopShimmer()
+        shimmerViewContainer.visibility = View.GONE
+    }
 
     override fun onItemClick(view: View?, position: Int): Boolean {
 
@@ -83,6 +103,5 @@ class ShowDrugsAdultFragmentView : PageFragment(),
             false
         }
     }
-
 
 }
