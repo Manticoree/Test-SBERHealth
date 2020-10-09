@@ -1,8 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@+id/fragment_showdrug">
 
+    <fragment
+        android:id="@+id/fragment_showdrug"
+        android:name="com.app.test_sberhealth.mvp.drugslistfragment.DrugsListFragmentView"
+        android:label="show_drug"
+        tools:layout="@layout/fragment_showdrug">
+        <action
+            android:id="@+id/action_showdrug_to_search"
+            app:destination="@+id/fragment_search"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_showdrug_to_desc"
+            app:destination="@+id/fragment_fulldescriptiondrug"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
+            <argument
+                android:name="title"
+                android:defaultValue="null"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_search"
+        android:name="com.app.test_sberhealth.mvp.searchdrugsfragment.SearchDrugFragmentView"
+        android:label="search"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/fragment_fulldescriptiondrug"
+        android:name="com.app.test_sberhealth.mvp.fulldescdrugfragment.FullDescDrugFragmentView"
+        android:label="desc"
+        tools:layout="@layout/fragment_fulldescriptiondrug">
+        <argument
+            android:name="title"
+            android:defaultValue="null"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

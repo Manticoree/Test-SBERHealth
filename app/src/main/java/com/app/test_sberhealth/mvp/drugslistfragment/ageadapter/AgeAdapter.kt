@@ -3,13 +3,16 @@ package com.app.test_sberhealth.mvp.drugslistfragment.ageadapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.app.test_sberhealth.mvp.drugslistfragment.callback.ClickDrugListener
 import com.app.test_sberhealth.mvp.showdrugsadultfragment.ShowDrugsAdultFragmentView
 
 class AgeAdapter(
     fm: FragmentManager,
-    behaviour: Int
+    behaviour: Int,
+    private val callbackDesc: ClickDrugListener
 ) :
     FragmentPagerAdapter(fm, behaviour) {
+
     companion object {
         const val PAGE_COUNT = 2
         private const val ADULT = "Взрослые"
@@ -20,9 +23,9 @@ class AgeAdapter(
     override fun getItem(position: Int): Fragment {
 
         return if (position == 1) {
-            ShowDrugsAdultFragmentView.newInstance(1)
+            ShowDrugsAdultFragmentView.newInstance(1, callbackDesc)
         } else {
-            ShowDrugsAdultFragmentView.newInstance(2)
+            ShowDrugsAdultFragmentView.newInstance(2, callbackDesc)
         }
     }
 

@@ -4,39 +4,58 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.app.test_sberhealth.R
 import com.app.test_sberhealth.adapter.DrugsAdapter
 import com.app.test_sberhealth.base.PageFragment
 import com.app.test_sberhealth.entities.DrugItem
+import com.app.test_sberhealth.mvp.drugslistfragment.callback.ClickDrugListener
 import com.app.test_sberhealth.mvp.errorfragment.ErrorFragmentView
-import com.app.test_sberhealth.mvp.fulldescdrugfragment.FullDescDrugFragmentView
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import kotlinx.android.synthetic.main.fragment_drugslist.*
 
 class ShowDrugsAdultFragmentView : PageFragment(),
     ShowDrugsAdultFragmentContract.View, FlexibleAdapter.OnItemClickListener {
 
+
     private var presenter: ShowDrugsAdultFragmentContract.Presenter? = null
     private var drugList: MutableList<DrugItem> = mutableListOf()
     var page: Int? = null
 
+    private lateinit var callback: ClickDrugListener
+
     companion object {
+
         private const val ARG_PAGE: String = "ARG_PAGE"
-        fun newInstance(page: Int): ShowDrugsAdultFragmentView {
+        private const val CALLBACK = "CALLBACK"
+
+        fun newInstance(page: Int, callback: ClickDrugListener): ShowDrugsAdultFragmentView {
+            /*
             val args = Bundle()
             args.putInt(ARG_PAGE, page)
             val fragment = ShowDrugsAdultFragmentView()
             fragment.arguments = args
             return fragment
+             */
+            return ShowDrugsAdultFragmentView().apply {
+                arguments = bundleOf(
+                    ARG_PAGE to page,
+                    CALLBACK to callback
+                )
+            }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val args = arguments
-        page = args?.getInt(ARG_PAGE)
+        arguments?.getSerializable(CALLBACK)?.let {
+            callback = it as ClickDrugListener
+        }
+        arguments?.getInt(ARG_PAGE)?.let {
+            page = it
+        }
     }
 
     override fun onCreateView(
@@ -92,13 +111,7 @@ class ShowDrugsAdultFragmentView : PageFragment(),
     override fun onItemClick(view: View?, position: Int): Boolean {
 
         return if (position != RecyclerView.NO_POSITION) {
-            val transaction: FragmentTransaction =
-                requireActivity().supportFragmentManager.beginTransaction()
-            transaction.replace(
-                R.id.fcvFragment,
-                FullDescDrugFragmentView.newInstance(drugList[position].title)
-            )
-                .commit()
+            callback.showFullDesc(drugList[position].title)
             true
         } else {
             false

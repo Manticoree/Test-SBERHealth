@@ -4,4 +4,5 @@
     <string name="repeat">Повторить</string>
     <string name="search">Поиск</string>
     <string name="back">Назад</string>
+    <string name="title">Заголовок</string>
 </resources>
