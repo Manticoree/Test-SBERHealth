@@ -11,6 +11,7 @@ class MainApplication : Application() {
 
     companion object {
         lateinit var applicationComponent: AppComponent
+        const val URL_DRUGS = "https://run.mocky.io"
     }
 
     override fun onCreate() {
@@ -19,7 +20,7 @@ class MainApplication : Application() {
             .builder()
             .applicationModule(ApplicationModule(this))
             .contextModule(ContextModule(this))
-            .retrofitModule(RetrofitModule(this, "https://run.mocky.io"))
+            .retrofitModule(RetrofitModule(this, URL_DRUGS))
             .build()
         applicationComponent.inject(this)
     }

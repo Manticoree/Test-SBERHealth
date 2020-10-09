@@ -9,7 +9,7 @@ import com.app.test_sberhealth.mvp.showdrugsadultfragment.ShowDrugsAdultFragment
 class AgeAdapter(
     fm: FragmentManager,
     behaviour: Int,
-    private val callbackDesc: ClickDrugListener
+    private val callbackDesc: ClickDrugListener?
 ) :
     FragmentPagerAdapter(fm, behaviour) {
 

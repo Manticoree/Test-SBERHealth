@@ -31,7 +31,7 @@ class ShowDrugsAdultFragmentView : PageFragment(),
         private const val ARG_PAGE: String = "ARG_PAGE"
         private const val CALLBACK = "CALLBACK"
 
-        fun newInstance(page: Int, callback: ClickDrugListener): ShowDrugsAdultFragmentView {
+        fun newInstance(page: Int, callback: ClickDrugListener?): ShowDrugsAdultFragmentView {
             /*
             val args = Bundle()
             args.putInt(ARG_PAGE, page)
@@ -50,7 +50,7 @@ class ShowDrugsAdultFragmentView : PageFragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.getSerializable(CALLBACK)?.let {
+        arguments?.get(CALLBACK)?.let {
             callback = it as ClickDrugListener
         }
         arguments?.getInt(ARG_PAGE)?.let {

@@ -1,8 +1,6 @@
 package com.app.test_sberhealth.mvp.drugslistfragment.callback
 
-import java.io.Serializable
 
-
-interface ClickDrugListener : Serializable {
+interface ClickDrugListener {
     fun showFullDesc(title: String)
 }
