@@ -50,6 +50,7 @@ class ShowDrugsAdultFragmentView : PageFragment(),
         arguments?.getInt(ARG_PAGE)?.let {
             page = it
         }
+        retainInstance = true
     }
 
     override fun onCreateView(

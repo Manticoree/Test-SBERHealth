@@ -20,8 +20,9 @@ class MainApplication : Application() {
             .builder()
             .applicationModule(ApplicationModule(this))
             .contextModule(ContextModule(this))
-            .retrofitModule(RetrofitModule(this, URL_DRUGS))
+            .retrofitModule(RetrofitModule(URL_DRUGS))
             .build()
         applicationComponent.inject(this)
     }
+
 }

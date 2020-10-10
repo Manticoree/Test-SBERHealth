@@ -1,6 +1,5 @@
 package com.app.test_sberhealth.di.modules
 
-import android.content.Context
 import com.app.test_sberhealth.retrofit.RetrofitApi
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -17,14 +16,14 @@ import javax.net.ssl.*
 
 
 @Module
-class RetrofitModule(val context: Context, private val url: String) {
+class RetrofitModule(private val url: String) {
 
     lateinit var retrofit: Retrofit
 
     @Provides
     @Singleton
     fun getRetrofitApi(): RetrofitApi? {
-        return getClient(context, url)?.create(RetrofitApi::class.java)
+        return getClient(url)?.create(RetrofitApi::class.java)
     }
 
     @Provides
@@ -74,7 +73,7 @@ class RetrofitModule(val context: Context, private val url: String) {
 
     @Provides
     @Singleton
-    fun getClient(context: Context, url: String): Retrofit? {
+    fun getClient(url: String): Retrofit? {
         val gsonBuilder = GsonBuilder()
         gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
 

@@ -18,6 +18,11 @@ class DrugsListFragmentView : BaseFragment(), DrugsListFragmentContract.View {
     var adapter: AgeAdapter? = null
     lateinit var navController: NavController
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        retainInstance = true
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

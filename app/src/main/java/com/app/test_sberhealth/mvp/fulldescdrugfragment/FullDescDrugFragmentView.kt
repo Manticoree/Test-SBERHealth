@@ -30,6 +30,7 @@ class FullDescDrugFragmentView : BaseFragment(), FullDescDrugFragmentContract.Vi
             val safeArgs = FullDescDrugFragmentViewArgs.fromBundle(it)
             title = safeArgs.title
         }
+        retainInstance = true
     }
 
     override fun onCreateView(
