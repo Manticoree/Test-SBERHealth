@@ -1,6 +1,7 @@
 package com.app.test_sberhealth.mvp.showdrugsadultfragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +25,7 @@ class ShowDrugsAdultFragmentView : PageFragment(),
     private var drugList: MutableList<DrugItem> = mutableListOf()
     var page: Int? = null
 
-    private lateinit var callback: ClickDrugListener
+    private var callback: ClickDrugListener? = null
 
     companion object {
 
@@ -40,19 +41,25 @@ class ShowDrugsAdultFragmentView : PageFragment(),
             return fragment
              */
             return ShowDrugsAdultFragmentView().apply {
-                arguments = bundleOf(
-                    ARG_PAGE to page,
-                    CALLBACK to callback
-                )
+                try {
+                    arguments = bundleOf(
+                        ARG_PAGE to page,
+                        CALLBACK to callback
+                    )
+                } catch (e: RuntimeException) {
+                    Log.e("not serializable", e.stackTrace.toString())
+                }
             }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.get(CALLBACK)?.let {
+
+        arguments?.getSerializable(CALLBACK)?.let {
             callback = it as ClickDrugListener
         }
+
         arguments?.getInt(ARG_PAGE)?.let {
             page = it
         }
@@ -111,7 +118,7 @@ class ShowDrugsAdultFragmentView : PageFragment(),
     override fun onItemClick(view: View?, position: Int): Boolean {
 
         return if (position != RecyclerView.NO_POSITION) {
-            callback.showFullDesc(drugList[position].title)
+            callback?.showFullDesc(drugList[position].title)
             true
         } else {
             false
