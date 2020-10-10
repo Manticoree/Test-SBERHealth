@@ -15,6 +15,7 @@ class ShowDrugsAdultFragmentPresenter(val view: ShowDrugsAdultFragmentContract.V
     var retrofitApi: RetrofitApi? = null
         @Inject set
 
+    var disGetDrug: Disposable? = null
 
     init {
         MainApplication.applicationComponent.inject(this)
@@ -33,15 +34,17 @@ class ShowDrugsAdultFragmentPresenter(val view: ShowDrugsAdultFragmentContract.V
             ?.subscribe(object : SingleObserver<List<DrugItem>> {
                 override fun onSuccess(drugsList: List<DrugItem>?) {
                     view.initRecView(drugsList as MutableList<DrugItem>)
-
                 }
 
                 override fun onSubscribe(d: Disposable?) {
-
+                    disGetDrug = d
                 }
 
                 override fun onError(e: Throwable?) {
+                    view.hideShimmer()
                     view.showErrorRepeat()
+                    view.clickRepeat()
+                    disGetDrug?.dispose()
                 }
             })
     }

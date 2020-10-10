@@ -6,14 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.app.test_sberhealth.R
 import com.app.test_sberhealth.adapter.DrugsAdapter
 import com.app.test_sberhealth.base.PageFragment
 import com.app.test_sberhealth.entities.DrugItem
-import com.app.test_sberhealth.mvp.drugslistfragment.callback.ClickDrugListener
-import com.app.test_sberhealth.mvp.errorfragment.ErrorFragmentView
+import com.app.test_sberhealth.mvp.drugslistfragment.DrugsListFragmentViewDirections
+import com.jakewharton.rxbinding4.view.clicks
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import kotlinx.android.synthetic.main.fragment_drugslist.*
 
@@ -22,44 +23,30 @@ class ShowDrugsAdultFragmentView : PageFragment(),
 
 
     private var presenter: ShowDrugsAdultFragmentContract.Presenter? = null
-    private var drugList: MutableList<DrugItem> = mutableListOf()
+    private var drugListAdult: MutableList<DrugItem> = mutableListOf()
+    private var drugListKids: MutableList<DrugItem> = mutableListOf()
     var page: Int? = null
-
-    private var callback: ClickDrugListener? = null
+    lateinit var navController: NavController
 
     companion object {
 
         private const val ARG_PAGE: String = "ARG_PAGE"
-        private const val CALLBACK = "CALLBACK"
-
-        fun newInstance(page: Int, callback: ClickDrugListener?): ShowDrugsAdultFragmentView {
-            /*
-            val args = Bundle()
-            args.putInt(ARG_PAGE, page)
-            val fragment = ShowDrugsAdultFragmentView()
-            fragment.arguments = args
-            return fragment
-             */
+        fun newInstance(page: Int): ShowDrugsAdultFragmentView {
             return ShowDrugsAdultFragmentView().apply {
                 try {
                     arguments = bundleOf(
-                        ARG_PAGE to page,
-                        CALLBACK to callback
+                        ARG_PAGE to page
                     )
                 } catch (e: RuntimeException) {
                     Log.e("not serializable", e.stackTrace.toString())
                 }
             }
         }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        arguments?.getSerializable(CALLBACK)?.let {
-            callback = it as ClickDrugListener
-        }
-
         arguments?.getInt(ARG_PAGE)?.let {
             page = it
         }
@@ -71,6 +58,11 @@ class ShowDrugsAdultFragmentView : PageFragment(),
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_drugslist, container, false)
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+    }
+
     override fun onStart() {
         super.onStart()
         if (presenter == null) {
@@ -80,16 +72,17 @@ class ShowDrugsAdultFragmentView : PageFragment(),
     }
 
     override fun initRecView(initList: MutableList<DrugItem>) {
-        drugList = initList
         var adapList: MutableList<DrugsAdapter> = mutableListOf()
         for (drug in initList) {
             if (page == 1) {
                 if (!drug.isReadyForKids) {
                     adapList.add(DrugsAdapter(drug))
+                    drugListAdult.add(drug)
                 }
             } else if (page == 2) {
                 if (drug.isReadyForKids) {
                     adapList.add(DrugsAdapter(drug))
+                    drugListKids.add(drug)
                 }
             }
         }
@@ -97,13 +90,26 @@ class ShowDrugsAdultFragmentView : PageFragment(),
     }
 
     override fun showErrorRepeat() {
-        val transaction: FragmentTransaction =
-            requireActivity().supportFragmentManager.beginTransaction()
-        transaction.replace(
-            R.id.fcvFragment,
-            ErrorFragmentView()
-        )
-            .commit()
+        visibilityElements(View.GONE, View.VISIBLE, View.VISIBLE)
+    }
+
+    override fun visibilityElements(visDrugsList: Int, visTextError: Int, visRepeat: Int) {
+        rvDrugsList.visibility = visDrugsList
+        mtvTextError.visibility = visTextError
+        mbtnRepeat.visibility = visRepeat
+    }
+
+    override fun repeat() {
+        shimmerViewContainer.visibility = View.VISIBLE
+        showShimmer()
+        visibilityElements(View.VISIBLE, View.GONE, View.GONE)
+        presenter?.getDrugs()
+    }
+
+    override fun clickRepeat() {
+        mbtnRepeat.clicks().subscribe {
+            repeat()
+        }
     }
 
     override fun showShimmer() {
@@ -116,9 +122,20 @@ class ShowDrugsAdultFragmentView : PageFragment(),
     }
 
     override fun onItemClick(view: View?, position: Int): Boolean {
-
         return if (position != RecyclerView.NO_POSITION) {
-            callback?.showFullDesc(drugList[position].title)
+
+            navController.run {
+                val action = DrugsListFragmentViewDirections
+                    .actionShowdrugToDesc()
+                    .setTitle(
+                        if (page == 1) {
+                            drugListAdult[position].title
+                        } else {
+                            drugListKids[position].title
+                        }
+                    )
+                navigate(action)
+            }
             true
         } else {
             false

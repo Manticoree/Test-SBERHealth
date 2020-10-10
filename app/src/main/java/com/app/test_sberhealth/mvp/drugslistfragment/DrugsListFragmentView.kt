@@ -1,7 +1,6 @@
 package com.app.test_sberhealth.mvp.drugslistfragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import androidx.navigation.Navigation
 import com.app.test_sberhealth.R
 import com.app.test_sberhealth.base.BaseFragment
 import com.app.test_sberhealth.mvp.drugslistfragment.ageadapter.AgeAdapter
-import com.app.test_sberhealth.mvp.drugslistfragment.callback.ClickDrugListener
 import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.android.synthetic.main.fragment_showdrug.*
 
@@ -19,19 +17,6 @@ class DrugsListFragmentView : BaseFragment(), DrugsListFragmentContract.View {
     var presenter: DrugsListFragmentContract.Presenter? = null
     var adapter: AgeAdapter? = null
     lateinit var navController: NavController
-
-    private var drugTitleCallback: ClickDrugListener? = object : ClickDrugListener {
-        override fun showFullDesc(title: String) {
-            Log.i("titleMessage: ", title)
-            val action = DrugsListFragmentViewDirections
-                .actionShowdrugToDesc()
-                .setTitle(title)
-            navController.run {
-                navigate(action)
-            }
-        }
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +31,6 @@ class DrugsListFragmentView : BaseFragment(), DrugsListFragmentContract.View {
 
     override fun onStart() {
         super.onStart()
-        Log.i("onFragmentStart: ", "")
         if (presenter == null)
             presenter = DrugsListFragmentPresenter(this)
         presenter?.onShowDrugFragment()
@@ -54,13 +38,10 @@ class DrugsListFragmentView : BaseFragment(), DrugsListFragmentContract.View {
     }
 
     override fun showDrugsFragment() {
-
         if (adapter == null)
-            adapter = AgeAdapter(childFragmentManager, 1, drugTitleCallback)
-
+            adapter = AgeAdapter(childFragmentManager, 1)
         tabDiffAge.setupWithViewPager(vpDrugsList)
         vpDrugsList.adapter = adapter
-
     }
 
     override fun moveToSearch() {
@@ -70,10 +51,19 @@ class DrugsListFragmentView : BaseFragment(), DrugsListFragmentContract.View {
             }
     }
 
+    override fun moveToDesc(title: String) {
+        val action = DrugsListFragmentViewDirections
+            .actionShowdrugToDesc()
+            .setTitle(title)
+        navController.run {
+            navigate(action)
+        }
+    }
+
     override fun onStop() {
-        drugTitleCallback = null
         presenter = null
         adapter = null
         super.onStop()
     }
+
 }
