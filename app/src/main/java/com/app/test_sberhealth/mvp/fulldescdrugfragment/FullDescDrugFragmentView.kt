@@ -13,17 +13,6 @@ class FullDescDrugFragmentView : BaseFragment(), FullDescDrugFragmentContract.Vi
     var presenter: FullDescDrugFragmentContract.Presenter? = null
     private var title: String? = null
 
-    companion object {
-        const val TITLE: String = "TITLE"
-        fun newInstance(title: String): FullDescDrugFragmentView {
-            var args = Bundle()
-            args.putString(TITLE, title)
-            val fragment = FullDescDrugFragmentView()
-            fragment.arguments = args
-            return fragment
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -44,7 +33,6 @@ class FullDescDrugFragmentView : BaseFragment(), FullDescDrugFragmentContract.Vi
         if (presenter == null)
             presenter = FullDescDrugFragmentPresenter(this)
         mtvTitleDrugs.text = title
-
     }
 
 }

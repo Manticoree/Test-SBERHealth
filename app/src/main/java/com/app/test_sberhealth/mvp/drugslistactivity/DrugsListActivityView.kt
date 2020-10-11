@@ -14,4 +14,5 @@ class DrugsListActivityView : BaseActivity(), DrugsListActivityContract.View {
         if (presenter == null)
             presenter = DrugsListActivityPresenter(this)
     }
+
 }

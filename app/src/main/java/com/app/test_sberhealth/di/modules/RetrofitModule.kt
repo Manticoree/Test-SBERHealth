@@ -30,7 +30,6 @@ class RetrofitModule(private val url: String) {
     @Singleton
     fun getUnsafeOkHttpClient(): OkHttpClient? {
         return try {
-            // Create a trust manager that does not validate certificate chains
             val trustAllCerts =
                 arrayOf<TrustManager>(
                     object : X509TrustManager {
@@ -54,10 +53,8 @@ class RetrofitModule(private val url: String) {
                     }
                 )
 
-            // Install the all-trusting trust manager
             val sslContext = SSLContext.getInstance("SSL")
             sslContext.init(null, trustAllCerts, SecureRandom())
-            // Create an ssl socket factory with our all-trusting manager
             val sslSocketFactory: SSLSocketFactory = sslContext.socketFactory
             val builder = OkHttpClient.Builder()
             builder.sslSocketFactory(
@@ -76,7 +73,6 @@ class RetrofitModule(private val url: String) {
     fun getClient(url: String): Retrofit? {
         val gsonBuilder = GsonBuilder()
         gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-
         retrofit = Retrofit.Builder().baseUrl(url)
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gsonBuilder.create()))

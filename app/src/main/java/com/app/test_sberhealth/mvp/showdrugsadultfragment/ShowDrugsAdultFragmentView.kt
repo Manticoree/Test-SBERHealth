@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.fragment_drugslist.*
 class ShowDrugsAdultFragmentView : PageFragment(),
     ShowDrugsAdultFragmentContract.View, FlexibleAdapter.OnItemClickListener {
 
-
     private var presenter: ShowDrugsAdultFragmentContract.Presenter? = null
     private var drugListAdult: MutableList<DrugItem> = mutableListOf()
     private var drugListKids: MutableList<DrugItem> = mutableListOf()
@@ -124,7 +123,6 @@ class ShowDrugsAdultFragmentView : PageFragment(),
 
     override fun onItemClick(view: View?, position: Int): Boolean {
         return if (position != RecyclerView.NO_POSITION) {
-
             navController.run {
                 val action = DrugsListFragmentViewDirections
                     .actionShowdrugToDesc()

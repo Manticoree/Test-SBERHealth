@@ -29,5 +29,4 @@ class SearchDrugFragmentView : BaseFragment(), SearchDrugFragmentContract.View {
 
     }
 
-
 }
