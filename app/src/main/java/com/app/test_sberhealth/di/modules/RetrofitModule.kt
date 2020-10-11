@@ -8,77 +8,27 @@ import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.security.SecureRandom
-import java.security.cert.CertificateException
-import java.security.cert.X509Certificate
 import javax.inject.Singleton
-import javax.net.ssl.*
 
 
 @Module
 class RetrofitModule(private val url: String) {
 
-    lateinit var retrofit: Retrofit
-
     @Provides
     @Singleton
-    fun getRetrofitApi(): RetrofitApi? {
-        return getClient(url)?.create(RetrofitApi::class.java)
+    fun getRetrofitApi(): RetrofitApi {
+        return getClient(url).create(RetrofitApi::class.java)
     }
 
     @Provides
     @Singleton
-    fun getUnsafeOkHttpClient(): OkHttpClient? {
-        return try {
-            val trustAllCerts =
-                arrayOf<TrustManager>(
-                    object : X509TrustManager {
-                        @Throws(CertificateException::class)
-                        override fun checkClientTrusted(
-                            chain: Array<X509Certificate>,
-                            authType: String
-                        ) {
-                        }
-
-                        @Throws(CertificateException::class)
-                        override fun checkServerTrusted(
-                            chain: Array<X509Certificate>,
-                            authType: String
-                        ) {
-                        }
-
-                        override fun getAcceptedIssuers(): Array<X509Certificate> {
-                            return arrayOf()
-                        }
-                    }
-                )
-
-            val sslContext = SSLContext.getInstance("SSL")
-            sslContext.init(null, trustAllCerts, SecureRandom())
-            val sslSocketFactory: SSLSocketFactory = sslContext.socketFactory
-            val builder = OkHttpClient.Builder()
-            builder.sslSocketFactory(
-                sslSocketFactory,
-                (trustAllCerts[0] as X509TrustManager)
-            )
-            builder.hostnameVerifier(HostnameVerifier { _, _ -> true })
-            builder.build()
-        } catch (e: Exception) {
-            throw RuntimeException(e)
-        }
-    }
-
-    @Provides
-    @Singleton
-    fun getClient(url: String): Retrofit? {
+    fun getClient(url: String): Retrofit {
         val gsonBuilder = GsonBuilder()
-        gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-        retrofit = Retrofit.Builder().baseUrl(url)
+        return Retrofit.Builder().baseUrl(url)
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gsonBuilder.create()))
-            .client(getUnsafeOkHttpClient())
+            .client(OkHttpClient.Builder().build())
             .build()
-        return retrofit
     }
 
 }

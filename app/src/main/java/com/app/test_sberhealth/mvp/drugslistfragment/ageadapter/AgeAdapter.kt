@@ -3,7 +3,7 @@ package com.app.test_sberhealth.mvp.drugslistfragment.ageadapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.app.test_sberhealth.mvp.showdrugsadultfragment.ShowDrugsAdultFragmentView
+import com.app.test_sberhealth.mvp.showdrugsadultfragment.ShowDrugsView
 
 
 class AgeAdapter(
@@ -20,11 +20,10 @@ class AgeAdapter(
     }
 
     override fun getItem(position: Int): Fragment {
-
         return if (position == 1) {
-            ShowDrugsAdultFragmentView.newInstance(1)
+            ShowDrugsView.newInstance(1)
         } else {
-            ShowDrugsAdultFragmentView.newInstance(2)
+            ShowDrugsView.newInstance(2)
         }
     }
 

@@ -9,11 +9,12 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
-class ShowDrugsAdultFragmentPresenter(val view: ShowDrugsAdultFragmentContract.View) :
-    ShowDrugsAdultFragmentContract.Presenter {
+class ShowDrugsPresenter(val view: ShowDrugsContract.View) :
+    ShowDrugsContract.Presenter {
 
-    var retrofitApi: RetrofitApi? = null
-        @Inject set
+    @Inject
+    lateinit var retrofitApi: RetrofitApi
+
 
     var disGetDrug: Disposable? = null
 
@@ -22,8 +23,8 @@ class ShowDrugsAdultFragmentPresenter(val view: ShowDrugsAdultFragmentContract.V
     }
 
     override fun getDrugs() {
-        retrofitApi?.getDrugs()
-            ?.subscribeOn(Schedulers.io())
+        retrofitApi.getDrugs()
+            .subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
             ?.doOnSubscribe {
                 view.showShimmer()

@@ -12,11 +12,11 @@ import com.app.test_sberhealth.mvp.drugslistfragment.ageadapter.AgeAdapter
 import com.jakewharton.rxbinding4.view.clicks
 import kotlinx.android.synthetic.main.fragment_showdrug.*
 
-class DrugsListFragmentView : BaseFragment(), DrugsListFragmentContract.View {
+class DrugsListFragment : BaseFragment(), DrugsListContract.View {
 
-    var presenter: DrugsListFragmentContract.Presenter? = null
-    var adapter: AgeAdapter? = null
-    lateinit var navController: NavController
+    private var presenter: DrugsListContract.Presenter? = null
+    private var adapter: AgeAdapter? = null
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +37,7 @@ class DrugsListFragmentView : BaseFragment(), DrugsListFragmentContract.View {
     override fun onStart() {
         super.onStart()
         if (presenter == null)
-            presenter = DrugsListFragmentPresenter(this)
+            presenter = DrugsListPresenter(this)
         presenter?.onShowDrugFragment()
         presenter?.onMoveToSearch()
     }
@@ -57,7 +57,7 @@ class DrugsListFragmentView : BaseFragment(), DrugsListFragmentContract.View {
     }
 
     override fun moveToDesc(title: String) {
-        val action = DrugsListFragmentViewDirections
+        val action = DrugsListFragmentDirections
             .actionShowdrugToDesc()
             .setTitle(title)
         navController.run {
@@ -65,10 +65,9 @@ class DrugsListFragmentView : BaseFragment(), DrugsListFragmentContract.View {
         }
     }
 
-    override fun onStop() {
+    override fun onDetach() {
         presenter = null
         adapter = null
-        super.onStop()
+        super.onDetach()
     }
-
 }

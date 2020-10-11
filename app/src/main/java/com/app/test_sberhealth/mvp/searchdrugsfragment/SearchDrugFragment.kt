@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import com.app.test_sberhealth.R
 import com.app.test_sberhealth.base.BaseFragment
 
-class SearchDrugFragmentView : BaseFragment(), SearchDrugFragmentContract.View {
+class SearchDrugFragment : BaseFragment(), SearchDrugContract.View {
 
-    var presenter: SearchDrugFragmentContract.Presenter? = null
+    var presenter: SearchDrugContract.Presenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,7 @@ class SearchDrugFragmentView : BaseFragment(), SearchDrugFragmentContract.View {
     override fun onStart() {
         super.onStart()
         if (presenter == null)
-            presenter = SearchDrugFragmentPresenter(this)
+            presenter = SearchDrugPresenter(this)
 
     }
 

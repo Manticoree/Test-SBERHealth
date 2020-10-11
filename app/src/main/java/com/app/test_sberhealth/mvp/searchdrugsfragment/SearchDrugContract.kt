@@ -1,6 +1,6 @@
 package com.app.test_sberhealth.mvp.searchdrugsfragment
 
-interface SearchDrugFragmentContract {
+interface SearchDrugContract {
 
     interface View
 

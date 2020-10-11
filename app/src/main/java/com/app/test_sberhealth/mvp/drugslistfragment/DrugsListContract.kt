@@ -1,6 +1,6 @@
 package com.app.test_sberhealth.mvp.drugslistfragment
 
-interface DrugsListFragmentContract {
+interface DrugsListContract {
 
     interface View {
         fun showDrugsFragment()

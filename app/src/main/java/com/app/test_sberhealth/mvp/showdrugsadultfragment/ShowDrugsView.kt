@@ -13,15 +13,15 @@ import com.app.test_sberhealth.R
 import com.app.test_sberhealth.adapter.DrugsAdapter
 import com.app.test_sberhealth.base.PageFragment
 import com.app.test_sberhealth.entities.DrugItem
-import com.app.test_sberhealth.mvp.drugslistfragment.DrugsListFragmentViewDirections
+import com.app.test_sberhealth.mvp.drugslistfragment.DrugsListFragmentDirections
 import com.jakewharton.rxbinding4.view.clicks
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import kotlinx.android.synthetic.main.fragment_drugslist.*
 
-class ShowDrugsAdultFragmentView : PageFragment(),
-    ShowDrugsAdultFragmentContract.View, FlexibleAdapter.OnItemClickListener {
+class ShowDrugsView : PageFragment(),
+    ShowDrugsContract.View, FlexibleAdapter.OnItemClickListener {
 
-    private var presenter: ShowDrugsAdultFragmentContract.Presenter? = null
+    private var presenter: ShowDrugsContract.Presenter? = null
     private var drugListAdult: MutableList<DrugItem> = mutableListOf()
     private var drugListKids: MutableList<DrugItem> = mutableListOf()
     var page: Int? = null
@@ -30,8 +30,8 @@ class ShowDrugsAdultFragmentView : PageFragment(),
     companion object {
 
         private const val ARG_PAGE: String = "ARG_PAGE"
-        fun newInstance(page: Int): ShowDrugsAdultFragmentView {
-            return ShowDrugsAdultFragmentView().apply {
+        fun newInstance(page: Int): ShowDrugsView {
+            return ShowDrugsView().apply {
                 try {
                     arguments = bundleOf(
                         ARG_PAGE to page
@@ -66,7 +66,7 @@ class ShowDrugsAdultFragmentView : PageFragment(),
     override fun onStart() {
         super.onStart()
         if (presenter == null) {
-            presenter = ShowDrugsAdultFragmentPresenter(this)
+            presenter = ShowDrugsPresenter(this)
         }
         presenter?.getDrugs()
     }
@@ -124,7 +124,7 @@ class ShowDrugsAdultFragmentView : PageFragment(),
     override fun onItemClick(view: View?, position: Int): Boolean {
         return if (position != RecyclerView.NO_POSITION) {
             navController.run {
-                val action = DrugsListFragmentViewDirections
+                val action = DrugsListFragmentDirections
                     .actionShowdrugToDesc()
                     .setTitle(
                         if (page == 1) {

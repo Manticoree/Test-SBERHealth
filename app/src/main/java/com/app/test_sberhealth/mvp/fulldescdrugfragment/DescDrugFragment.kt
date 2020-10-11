@@ -8,15 +8,15 @@ import com.app.test_sberhealth.R
 import com.app.test_sberhealth.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_fulldescriptiondrug.*
 
-class FullDescDrugFragmentView : BaseFragment(), FullDescDrugFragmentContract.View {
+class DescDrugFragment : BaseFragment(), DescDrugContract.View {
 
-    var presenter: FullDescDrugFragmentContract.Presenter? = null
+    var presenter: DescDrugContract.Presenter? = null
     private var title: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            val safeArgs = FullDescDrugFragmentViewArgs.fromBundle(it)
+            val safeArgs = DescDrugFragmentArgs.fromBundle(it)
             title = safeArgs.title
         }
         retainInstance = true
@@ -31,7 +31,7 @@ class FullDescDrugFragmentView : BaseFragment(), FullDescDrugFragmentContract.Vi
     override fun onStart() {
         super.onStart()
         if (presenter == null)
-            presenter = FullDescDrugFragmentPresenter(this)
+            presenter = DescDrugPresenter(this)
         mtvTitleDrugs.text = title
     }
 
