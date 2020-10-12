@@ -23,7 +23,13 @@ class DrugsAdapter(private val drugItem: DrugItem?) :
         holder?.bind(drugItem)
     }
 
-    override fun equals(other: Any?): Boolean = true
+    override fun equals(other: Any?): Boolean {
+        return if (other is DrugItem) {
+            other == drugItem
+        } else {
+            false
+        }
+    }
 
     override fun createViewHolder(
         view: View,
@@ -32,9 +38,8 @@ class DrugsAdapter(private val drugItem: DrugItem?) :
 
     override fun getLayoutRes(): Int = R.layout.item_drug
 
-    override fun hashCode(): Int {
-        return drugItem?.hashCode() ?: 0
-    }
+    override fun hashCode(): Int = drugItem?.hashCode() ?: 0
+
 
     inner class DrugHolder(private val view: View, adapter: FlexibleAdapter<out IFlexible<*>>?) :
         FlexibleViewHolder(view, adapter) {

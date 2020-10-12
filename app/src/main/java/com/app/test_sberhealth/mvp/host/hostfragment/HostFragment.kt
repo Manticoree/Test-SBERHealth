@@ -10,13 +10,15 @@ import com.app.test_sberhealth.R
 import com.app.test_sberhealth.base.BaseFragment
 import com.app.test_sberhealth.mvp.host.hostfragment.adapter.age.AgeAdapter
 import com.jakewharton.rxbinding4.view.clicks
+import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_host.*
 
 class HostFragment : BaseFragment(), HostContract.View {
 
-    private var presenter: HostContract.Presenter? = null
-    private var adapter: AgeAdapter? = null
+    private lateinit var presenter: HostContract.Presenter
+    private lateinit var adapter: AgeAdapter
     private lateinit var navController: NavController
+    private var disBtnSearch: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,42 +34,30 @@ class HostFragment : BaseFragment(), HostContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
-        if (presenter == null)
-            presenter = HostPresenter(this)
-        presenter?.onShowDrugFragment()
-        presenter?.onMoveToSearch()
+        presenter = HostPresenter(this)
+        presenter.onShowDrugFragment()
+        presenter.onMoveToSearch()
     }
 
     override fun showDrugsFragment() {
-        if (adapter == null)
-            adapter =
-                AgeAdapter(
-                    childFragmentManager,
-                    1
-                )
+        adapter =
+            AgeAdapter(
+                childFragmentManager,
+                1
+            )
         tabDiffAge.setupWithViewPager(vpDrugsList)
         vpDrugsList.adapter = adapter
     }
 
     override fun moveToSearch() {
-        mbtnSearch.clicks()
+        disBtnSearch = mbtnSearch.clicks()
             .subscribe {
                 navController.navigate(R.id.action_showdrug_to_search)
             }
     }
 
-    override fun moveToDesc(title: String) {
-        val action = HostFragmentDirections
-            .actionShowdrugToDesc()
-            .setTitle(title)
-        navController.run {
-            navigate(action)
-        }
-    }
-
     override fun onDetach() {
-        presenter = null
-        adapter = null
+        disBtnSearch?.dispose()
         super.onDetach()
     }
 

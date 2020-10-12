@@ -20,11 +20,11 @@ import kotlinx.android.synthetic.main.fragment_showlist.*
 class ShowFragment : PageFragment(),
     ShowContract.View, FlexibleAdapter.OnItemClickListener {
 
-    private var presenter: ShowContract.Presenter? = null
+    private lateinit var presenter: ShowContract.Presenter
     private var drugListAdult: MutableList<DrugItem> = mutableListOf()
     private var drugListKids: MutableList<DrugItem> = mutableListOf()
-    var page: Int? = null
-    lateinit var navController: NavController
+    private var page: Int? = null
+    private lateinit var navController: NavController
 
     companion object {
 
@@ -56,15 +56,12 @@ class ShowFragment : PageFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
-        if (presenter == null) {
-            presenter =
-                ShowPresenter(this)
-        }
-        presenter?.getDrugs()
+        presenter = ShowPresenter(this)
+        presenter.getDrugs()
     }
 
     override fun initRecView(initList: MutableList<DrugItem>) {
-        var adapList: MutableList<DrugsAdapter> = mutableListOf()
+        val adapList: MutableList<DrugsAdapter> = mutableListOf()
         for (drug in initList) {
             if (page == 1) {
                 if (!drug.isReadyForKids) {
@@ -95,7 +92,7 @@ class ShowFragment : PageFragment(),
         shimmerViewContainer.visibility = View.VISIBLE
         showShimmer()
         visibilityElements(View.VISIBLE, View.GONE, View.GONE)
-        presenter?.getDrugs()
+        presenter.getDrugs()
     }
 
     override fun clickRepeat() {

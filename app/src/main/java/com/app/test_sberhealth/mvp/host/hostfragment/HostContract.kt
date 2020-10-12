@@ -5,7 +5,6 @@ interface HostContract {
     interface View {
         fun showDrugsFragment()
         fun moveToSearch()
-        fun moveToDesc(title: String)
     }
 
     interface Presenter {

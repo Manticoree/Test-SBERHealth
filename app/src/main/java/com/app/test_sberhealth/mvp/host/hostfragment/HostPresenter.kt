@@ -1,6 +1,6 @@
 package com.app.test_sberhealth.mvp.host.hostfragment
 
-class HostPresenter(val view: HostContract.View) :
+class HostPresenter(private val view: HostContract.View) :
     HostContract.Presenter {
 
     override fun onShowDrugFragment() {
