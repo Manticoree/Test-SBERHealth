@@ -1,6 +1,6 @@
-package com.app.test_sberhealth.mvp.drugslistfragment
+package com.app.test_sberhealth.mvp.host.hostfragment
 
-interface DrugsListContract {
+interface HostContract {
 
     interface View {
         fun showDrugsFragment()

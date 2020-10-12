@@ -1,4 +1,4 @@
-package com.app.test_sberhealth.mvp.searchdrugsfragment
+package com.app.test_sberhealth.mvp.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,12 +7,21 @@ import android.view.ViewGroup
 import com.app.test_sberhealth.R
 import com.app.test_sberhealth.base.BaseFragment
 
-class SearchDrugFragment : BaseFragment(), SearchDrugContract.View {
+import kotlinx.android.synthetic.main.fragment_description.*
 
-    var presenter: SearchDrugContract.Presenter? = null
+class DescriptionFragment : BaseFragment() {
+
+    private var title: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.let {
+            val safeArgs =
+                DescriptionFragmentArgs.fromBundle(
+                    it
+                )
+            title = safeArgs.title
+        }
         retainInstance = true
     }
 
@@ -20,13 +29,11 @@ class SearchDrugFragment : BaseFragment(), SearchDrugContract.View {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_search, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_description, container, false)
 
     override fun onStart() {
         super.onStart()
-        if (presenter == null)
-            presenter = SearchDrugPresenter(this)
-
+        mtvTitleDrugs.text = title
     }
 
 }

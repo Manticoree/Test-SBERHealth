@@ -7,7 +7,7 @@ import com.app.test_sberhealth.di.ApplicationContext
 import com.app.test_sberhealth.di.modules.ApplicationModule
 import com.app.test_sberhealth.di.modules.ContextModule
 import com.app.test_sberhealth.di.modules.RetrofitModule
-import com.app.test_sberhealth.mvp.showdrugsadultfragment.ShowDrugsPresenter
+import com.app.test_sberhealth.mvp.show.list.ShowPresenter
 import dagger.Component
 import javax.inject.Singleton
 
@@ -28,6 +28,6 @@ interface AppComponent {
 
     fun inject(mainApplication: MainApplication)
 
-    fun inject(showDrugsPresenter: ShowDrugsPresenter)
+    fun inject(showPresenter: ShowPresenter)
 
 }

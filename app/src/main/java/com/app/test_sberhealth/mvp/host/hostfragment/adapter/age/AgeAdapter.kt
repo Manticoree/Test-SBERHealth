@@ -1,9 +1,9 @@
-package com.app.test_sberhealth.mvp.drugslistfragment.ageadapter
+package com.app.test_sberhealth.mvp.host.hostfragment.adapter.age
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.app.test_sberhealth.mvp.showdrugsadultfragment.ShowDrugsView
+import com.app.test_sberhealth.mvp.show.list.ShowFragment
 
 
 class AgeAdapter(
@@ -16,18 +16,22 @@ class AgeAdapter(
         const val PAGE_COUNT = 2
         private const val ADULT = "Взрослые"
         private const val CHILD = "Детские"
-        val tabTitles: Array<String> = arrayOf(ADULT, CHILD)
+        val tabTitles: Array<String> = arrayOf(
+            ADULT,
+            CHILD
+        )
     }
 
     override fun getItem(position: Int): Fragment {
         return if (position == 1) {
-            ShowDrugsView.newInstance(1)
+            ShowFragment.newInstance(1)
         } else {
-            ShowDrugsView.newInstance(2)
+            ShowFragment.newInstance(2)
         }
     }
 
-    override fun getCount(): Int = PAGE_COUNT
+    override fun getCount(): Int =
+        PAGE_COUNT
 
     override fun getPageTitle(position: Int): CharSequence? = tabTitles[position]
 

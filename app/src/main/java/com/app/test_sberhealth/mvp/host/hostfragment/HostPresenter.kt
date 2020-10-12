@@ -1,7 +1,7 @@
-package com.app.test_sberhealth.mvp.drugslistfragment
+package com.app.test_sberhealth.mvp.host.hostfragment
 
-class DrugsListPresenter(val view: DrugsListContract.View) :
-    DrugsListContract.Presenter {
+class HostPresenter(val view: HostContract.View) :
+    HostContract.Presenter {
 
     override fun onShowDrugFragment() {
         view.showDrugsFragment()

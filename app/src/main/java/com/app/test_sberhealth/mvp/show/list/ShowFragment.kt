@@ -1,7 +1,6 @@
-package com.app.test_sberhealth.mvp.showdrugsadultfragment
+package com.app.test_sberhealth.mvp.show.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,15 +12,15 @@ import com.app.test_sberhealth.R
 import com.app.test_sberhealth.adapter.DrugsAdapter
 import com.app.test_sberhealth.base.PageFragment
 import com.app.test_sberhealth.entities.DrugItem
-import com.app.test_sberhealth.mvp.drugslistfragment.DrugsListFragmentDirections
+import com.app.test_sberhealth.mvp.host.hostfragment.HostFragmentDirections
 import com.jakewharton.rxbinding4.view.clicks
 import eu.davidea.flexibleadapter.FlexibleAdapter
-import kotlinx.android.synthetic.main.fragment_drugslist.*
+import kotlinx.android.synthetic.main.fragment_showlist.*
 
-class ShowDrugsView : PageFragment(),
-    ShowDrugsContract.View, FlexibleAdapter.OnItemClickListener {
+class ShowFragment : PageFragment(),
+    ShowContract.View, FlexibleAdapter.OnItemClickListener {
 
-    private var presenter: ShowDrugsContract.Presenter? = null
+    private var presenter: ShowContract.Presenter? = null
     private var drugListAdult: MutableList<DrugItem> = mutableListOf()
     private var drugListKids: MutableList<DrugItem> = mutableListOf()
     var page: Int? = null
@@ -29,16 +28,12 @@ class ShowDrugsView : PageFragment(),
 
     companion object {
 
-        private const val ARG_PAGE: String = "ARG_PAGE"
-        fun newInstance(page: Int): ShowDrugsView {
-            return ShowDrugsView().apply {
-                try {
-                    arguments = bundleOf(
-                        ARG_PAGE to page
-                    )
-                } catch (e: RuntimeException) {
-                    Log.e("not serializable", e.stackTrace.toString())
-                }
+        private const val ARG_PAGE: String = "page"
+        fun newInstance(page: Int): ShowFragment {
+            return ShowFragment().apply {
+                arguments = bundleOf(
+                    ARG_PAGE to page
+                )
             }
         }
 
@@ -56,17 +51,14 @@ class ShowDrugsView : PageFragment(),
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_drugslist, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_showlist, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
-    }
-
-    override fun onStart() {
-        super.onStart()
         if (presenter == null) {
-            presenter = ShowDrugsPresenter(this)
+            presenter =
+                ShowPresenter(this)
         }
         presenter?.getDrugs()
     }
@@ -124,7 +116,7 @@ class ShowDrugsView : PageFragment(),
     override fun onItemClick(view: View?, position: Int): Boolean {
         return if (position != RecyclerView.NO_POSITION) {
             navController.run {
-                val action = DrugsListFragmentDirections
+                val action = HostFragmentDirections
                     .actionShowdrugToDesc()
                     .setTitle(
                         if (page == 1) {

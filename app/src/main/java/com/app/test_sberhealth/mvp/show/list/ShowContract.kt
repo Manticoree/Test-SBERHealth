@@ -1,8 +1,8 @@
-package com.app.test_sberhealth.mvp.showdrugsadultfragment
+package com.app.test_sberhealth.mvp.show.list
 
 import com.app.test_sberhealth.entities.DrugItem
 
-interface ShowDrugsContract {
+interface ShowContract {
 
     interface View {
         fun initRecView(initList: MutableList<DrugItem>)

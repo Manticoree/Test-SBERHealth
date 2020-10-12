@@ -1,4 +1,4 @@
-package com.app.test_sberhealth.mvp.drugslistfragment
+package com.app.test_sberhealth.mvp.host.hostfragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,13 +8,13 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.app.test_sberhealth.R
 import com.app.test_sberhealth.base.BaseFragment
-import com.app.test_sberhealth.mvp.drugslistfragment.ageadapter.AgeAdapter
+import com.app.test_sberhealth.mvp.host.hostfragment.adapter.age.AgeAdapter
 import com.jakewharton.rxbinding4.view.clicks
-import kotlinx.android.synthetic.main.fragment_showdrug.*
+import kotlinx.android.synthetic.main.fragment_host.*
 
-class DrugsListFragment : BaseFragment(), DrugsListContract.View {
+class HostFragment : BaseFragment(), HostContract.View {
 
-    private var presenter: DrugsListContract.Presenter? = null
+    private var presenter: HostContract.Presenter? = null
     private var adapter: AgeAdapter? = null
     private lateinit var navController: NavController
 
@@ -27,24 +27,24 @@ class DrugsListFragment : BaseFragment(), DrugsListContract.View {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_showdrug, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_host, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
-    }
-
-    override fun onStart() {
-        super.onStart()
         if (presenter == null)
-            presenter = DrugsListPresenter(this)
+            presenter = HostPresenter(this)
         presenter?.onShowDrugFragment()
         presenter?.onMoveToSearch()
     }
 
     override fun showDrugsFragment() {
         if (adapter == null)
-            adapter = AgeAdapter(childFragmentManager, 1)
+            adapter =
+                AgeAdapter(
+                    childFragmentManager,
+                    1
+                )
         tabDiffAge.setupWithViewPager(vpDrugsList)
         vpDrugsList.adapter = adapter
     }
@@ -57,7 +57,7 @@ class DrugsListFragment : BaseFragment(), DrugsListContract.View {
     }
 
     override fun moveToDesc(title: String) {
-        val action = DrugsListFragmentDirections
+        val action = HostFragmentDirections
             .actionShowdrugToDesc()
             .setTitle(title)
         navController.run {
@@ -70,4 +70,5 @@ class DrugsListFragment : BaseFragment(), DrugsListContract.View {
         adapter = null
         super.onDetach()
     }
+
 }

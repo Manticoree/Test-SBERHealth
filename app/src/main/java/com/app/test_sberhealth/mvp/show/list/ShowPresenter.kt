@@ -1,4 +1,4 @@
-package com.app.test_sberhealth.mvp.showdrugsadultfragment
+package com.app.test_sberhealth.mvp.show.list
 
 import com.app.test_sberhealth.base.MainApplication
 import com.app.test_sberhealth.entities.DrugItem
@@ -9,8 +9,8 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
-class ShowDrugsPresenter(val view: ShowDrugsContract.View) :
-    ShowDrugsContract.Presenter {
+class ShowPresenter(val view: ShowContract.View) :
+    ShowContract.Presenter {
 
     @Inject
     lateinit var retrofitApi: RetrofitApi

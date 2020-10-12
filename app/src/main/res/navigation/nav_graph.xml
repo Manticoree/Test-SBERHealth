@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@+id/fragment_showdrug">
+    app:startDestination="@+id/fragment_host">
 
     <fragment
-        android:id="@+id/fragment_showdrug"
-        android:name="com.app.test_sberhealth.mvp.drugslistfragment.DrugsListFragment"
+        android:id="@+id/fragment_host"
+        android:name="com.app.test_sberhealth.mvp.host.hostfragment.HostFragment"
         android:label="show_drug"
-        tools:layout="@layout/fragment_showdrug">
+        tools:layout="@layout/fragment_host">
         <action
             android:id="@+id/action_showdrug_to_search"
             app:destination="@+id/fragment_search"
@@ -19,7 +19,7 @@
             app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_showdrug_to_desc"
-            app:destination="@+id/fragment_fulldescriptiondrug"
+            app:destination="@+id/fragment_description"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -33,15 +33,15 @@
 
     <fragment
         android:id="@+id/fragment_search"
-        android:name="com.app.test_sberhealth.mvp.searchdrugsfragment.SearchDrugFragment"
+        android:name="com.app.test_sberhealth.mvp.fragments.SearchFragment"
         android:label="search"
         tools:layout="@layout/fragment_search" />
 
     <fragment
-        android:id="@+id/fragment_fulldescriptiondrug"
-        android:name="com.app.test_sberhealth.mvp.fulldescdrugfragment.DescDrugFragment"
+        android:id="@+id/fragment_description"
+        android:name="com.app.test_sberhealth.mvp.fragments.DescriptionFragment"
         android:label="desc"
-        tools:layout="@layout/fragment_fulldescriptiondrug">
+        tools:layout="@layout/fragment_description">
         <argument
             android:name="title"
             android:defaultValue="null"
