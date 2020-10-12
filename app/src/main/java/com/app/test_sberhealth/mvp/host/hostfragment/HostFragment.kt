@@ -12,6 +12,7 @@ import com.app.test_sberhealth.mvp.host.hostfragment.adapter.age.AgeAdapter
 import com.jakewharton.rxbinding4.view.clicks
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_host.*
+import java.lang.ref.WeakReference
 
 class HostFragment : BaseFragment(), HostContract.View {
 
@@ -29,7 +30,7 @@ class HostFragment : BaseFragment(), HostContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
-        presenter = HostPresenter(this)
+        presenter = HostPresenter(WeakReference(this))
         presenter.onShowDrugFragment()
         presenter.onMoveToSearch()
     }

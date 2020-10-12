@@ -1,14 +1,16 @@
 package com.app.test_sberhealth.mvp.host.hostfragment
 
-class HostPresenter(private val view: HostContract.View) :
+import java.lang.ref.WeakReference
+
+class HostPresenter(private val view: WeakReference<HostContract.View>) :
     HostContract.Presenter {
 
     override fun onShowDrugFragment() {
-        view.showDrugsFragment()
+        view.get()?.showDrugsFragment()
     }
 
     override fun onMoveToSearch() {
-        view.moveToSearch()
+        view.get()?.moveToSearch()
     }
 
 }

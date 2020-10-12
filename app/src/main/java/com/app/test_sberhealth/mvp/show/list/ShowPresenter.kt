@@ -7,14 +7,14 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-class ShowPresenter(val view: ShowContract.View) :
+class ShowPresenter(val view: WeakReference<ShowContract.View>) :
     ShowContract.Presenter {
 
     @Inject
     lateinit var retrofitApi: RetrofitApi
-
 
     var disGetDrug: Disposable? = null
 
@@ -27,15 +27,15 @@ class ShowPresenter(val view: ShowContract.View) :
             .subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
             ?.doOnSubscribe {
-                view.showShimmer()
+                view.get()?.showShimmer()
             }
             ?.doAfterSuccess {
-                view.hideShimmer()
+                view.get()?.hideShimmer()
                 disGetDrug?.dispose()
             }
             ?.subscribe(object : SingleObserver<List<DrugItem>> {
                 override fun onSuccess(drugsList: List<DrugItem>?) {
-                    view.initRecView(drugsList as MutableList<DrugItem>)
+                    view.get()?.initRecView(drugsList as MutableList<DrugItem>)
                 }
 
                 override fun onSubscribe(d: Disposable?) {
@@ -43,9 +43,9 @@ class ShowPresenter(val view: ShowContract.View) :
                 }
 
                 override fun onError(e: Throwable?) {
-                    view.hideShimmer()
-                    view.showErrorRepeat()
-                    view.clickRepeat()
+                    view.get()?.hideShimmer()
+                    view.get()?.showErrorRepeat()
+                    view.get()?.clickRepeat()
                     disGetDrug?.dispose()
                 }
             })

@@ -16,6 +16,7 @@ import com.app.test_sberhealth.mvp.host.hostfragment.HostFragmentDirections
 import com.jakewharton.rxbinding4.view.clicks
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import kotlinx.android.synthetic.main.fragment_showlist.*
+import java.lang.ref.WeakReference
 
 class ShowFragment : PageFragment(),
     ShowContract.View, FlexibleAdapter.OnItemClickListener {
@@ -36,6 +37,7 @@ class ShowFragment : PageFragment(),
                 )
             }
         }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +56,7 @@ class ShowFragment : PageFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
-        presenter = ShowPresenter(this)
+        presenter = ShowPresenter(WeakReference(this))
         presenter.getDrugs()
     }
 
