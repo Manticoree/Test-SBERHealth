@@ -31,6 +31,7 @@ class ShowPresenter(val view: ShowContract.View) :
             }
             ?.doAfterSuccess {
                 view.hideShimmer()
+                disGetDrug?.dispose()
             }
             ?.subscribe(object : SingleObserver<List<DrugItem>> {
                 override fun onSuccess(drugsList: List<DrugItem>?) {

@@ -22,7 +22,6 @@ class DescriptionFragment : BaseFragment() {
                 )
             title = safeArgs.title
         }
-        retainInstance = true
     }
 
     override fun onCreateView(
