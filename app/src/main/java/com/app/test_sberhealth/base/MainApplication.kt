@@ -1,13 +1,13 @@
 package com.app.test_sberhealth.base
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import com.app.test_sberhealth.di.component.AppComponent
 import com.app.test_sberhealth.di.component.DaggerAppComponent
 import com.app.test_sberhealth.di.modules.ApplicationModule
 import com.app.test_sberhealth.di.modules.ContextModule
 import com.app.test_sberhealth.di.modules.RetrofitModule
 
-class MainApplication : Application() {
+class MainApplication : MultiDexApplication() {
 
     companion object {
         lateinit var applicationComponent: AppComponent
