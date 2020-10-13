@@ -6,13 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.app.test_sberhealth.R
+import com.app.test_sberhealth.analytics.Analytics
 import com.app.test_sberhealth.base.BaseFragment
 import com.app.test_sberhealth.mvp.host.hostfragment.adapter.age.AgeAdapter
 import com.jakewharton.rxbinding4.view.clicks
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_host.*
 import java.lang.ref.WeakReference
+
 
 class HostFragment : BaseFragment(), HostContract.View {
 
@@ -33,6 +36,7 @@ class HostFragment : BaseFragment(), HostContract.View {
         presenter = HostPresenter(WeakReference(this))
         presenter.onShowDrugFragment()
         presenter.onMoveToSearch()
+        presenter.onTrackAnalytics()
     }
 
     override fun showDrugsFragment() {
@@ -50,6 +54,29 @@ class HostFragment : BaseFragment(), HostContract.View {
             .subscribe {
                 navController.navigate(R.id.action_showdrug_to_search)
             }
+    }
+
+    override fun trackAnalytics() {
+        vpDrugsList.addOnPageChangeListener(object : OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+
+            }
+
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                if (position == 0) {
+                    Analytics.showAdultList()
+                } else if (position == 1) {
+                    Analytics.showChildList()
+                }
+            }
+        })
     }
 
     override fun onDetach() {

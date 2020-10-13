@@ -13,4 +13,8 @@ class HostPresenter(private val view: WeakReference<HostContract.View>) :
         view.get()?.moveToSearch()
     }
 
+    override fun onTrackAnalytics() {
+        view.get()?.trackAnalytics()
+    }
+
 }
