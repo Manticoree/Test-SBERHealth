@@ -5,4 +5,7 @@
     <string name="search">Поиск</string>
     <string name="back">Назад</string>
     <string name="title">Заголовок</string>
+    <string name="label_host">show_drug</string>
+    <string name="label_search">search</string>
+    <string name="label_description">description</string>
 </resources>

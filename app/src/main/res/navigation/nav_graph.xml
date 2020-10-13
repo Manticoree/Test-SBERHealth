@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/fragment_host"
         android:name="com.app.test_sberhealth.mvp.host.hostfragment.HostFragment"
-        android:label="show_drug"
+        android:label="@string/label_host"
         tools:layout="@layout/fragment_host">
         <action
             android:id="@+id/action_showdrug_to_search"
@@ -34,13 +34,13 @@
     <fragment
         android:id="@+id/fragment_search"
         android:name="com.app.test_sberhealth.mvp.fragments.SearchFragment"
-        android:label="search"
+        android:label="@string/label_search"
         tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/fragment_description"
         android:name="com.app.test_sberhealth.mvp.fragments.DescriptionFragment"
-        android:label="desc"
+        android:label="@string/label_description"
         tools:layout="@layout/fragment_description">
         <argument
             android:name="title"
